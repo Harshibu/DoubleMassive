@@ -1,21 +1,21 @@
-﻿// DoubleMassive.cpp
-
-
-#include <iostream>
+﻿#include <iostream>
+#include <clocale>
 #define N 100
 #define M 200
 using namespace std;
 
 int main()
 {
+	setlocale(LC_ALL, "Russian");
 	int a[N][M];
 	int i, j;
 	int n, m, t;
-	int imin, jmin, min, imax, jmax, max;
+	int min, max;
+	int imin, jmin, imax, jmax;
 	int sum, upsum, undersum;
-	cout << "n = ";
+	cout << "Введите количество строк матрицы = ";
 	cin >> n;
-	cout << "m = ";
+	cout << "Введите количество столбцов матрицы = ";
 	cin >> m;
 	for (i = 0; i < n; i++)
 		for (j = 0; j < m; j++)
@@ -24,7 +24,7 @@ int main()
 			cin >> a[i][j];
 		}
 	cout << "\n";
-	cout << "MATRIX a \n";
+	cout << "Матрица \n";
 	for (i = 0; i < n; i++)
 	{
 		for (j = 0; j < m; j++)
@@ -33,8 +33,10 @@ int main()
 		cout << endl;
 	}
 	cout << "\n";
-	cout << "Minimun&Maximum" << "\n";
+	cout << "Минимум и Максимум \n";
 	min = a[0][0];
+	imin = 0;
+	jmin = 0;
 	for (i = 0; i < n; i++)
 		for (j = 0; j < m; j++)
 			if (a[i][j] < min)
@@ -43,8 +45,10 @@ int main()
 				imin = i;
 				jmin = j;
 			}
-	cout << "minimum = " << min << "\n";
+	cout << "Минимум = " << min << "\n";
 	max = min;
+	imax = 0;
+	jmax = 0;
 	for (i = 0; i < n; i++)
 		for (j = 0; j < m; j++)
 			if (a[i][j] > max)
@@ -53,32 +57,41 @@ int main()
 				imax = i;
 				jmax = j;
 			}
-	cout << "maximum = " << max << "\n";
+	cout << "Максимум = " << max;
 	cout << "\n";
 	sum = 0;
 	for (i = 0; i < n; i++)
+	{
 		for (j = 0; j < m; j++)
 			sum = sum + a[i][j];
-	cout << "SUmma = " << sum << "\n";
+	}
+	cout << "\n";
+	cout << "Сумма элементов матрицы = " << sum << "\n";
 	cout << "\n";
 	t = a[imin][jmin];
 	a[imin][jmin] = a[imax][jmax];
 	a[imax][jmax] = t;
-	cout << "MATRIX REVERSE a" << "\n";
+	cout << "Матрица Изменённая" << "\n";
 	for (i = 0; i < n; i++)
 	{
 		for (j = 0; j < m; j++)
 			cout << a[i][j] << "  ";
 		cout << endl;
 	}
-	cout << "\n";
-	cout << "[-------------Summa up&under------------]" << "\n";
+	undersum = 0;
+	for (i = 0; i<n; i++)
+	{
+		for (j = 0; j < i; j++)
+			undersum = undersum + a[i][j]; // Главная диагональ идёт с левого верхнего элемента до крайнего правого.
+		cout << endl;
+	}
+	cout << "Сумма под главной диагональю = " << undersum;
 	upsum = 0;
-	for (n = 0; n < m; n++)
-		for (m = 0; m > n; m++)
-			for (i = 0; i < n; i++)
-				for (j = 0; j < m; j++)
-					upsum = upsum + a[i][j];
-	cout << "Summa UP = " << upsum;
-
+	for(j = 0; j < m; j++)
+	{
+		for (i = 0; i < j; i++)
+			upsum = upsum + a[i][j];
+		cout << endl;
+	}
+	cout << "Сумма над главной диагональю = " << upsum;
 }
